@@ -180,15 +180,10 @@
   .arch-arrow { color: var(--text3); font-size: 20px; }
   .arch-label { font-size: 11px; color: var(--text3); }
 
-  /* ===== INTERACTIVE DEMO SECTION ===== */
+  /* ===== INTERACTIVE DEMO SECTION v5 ===== */
   .hub-demo {
-    background: #0f1623;
-    border-radius: 16px;
-    overflow: hidden;
-    color: #e2e8f0;
-    max-width: 900px;
-    margin: 0 auto;
-    border: 1px solid #1e2a3e;
+    background: #0f1623; border-radius: 16px; overflow: hidden; color: #e2e8f0;
+    max-width: 900px; margin: 0 auto; border: 1px solid #1e2a3e;
     box-shadow: 0 25px 60px rgba(0,0,0,0.5);
   }
   .hub-header {
@@ -198,11 +193,11 @@
   .hub-header-left { display: flex; align-items: center; gap: 8px; }
   .hub-status-dot {
     width: 8px; height: 8px; border-radius: 50%; background: #22c55e;
-    animation: pulse-dot 2s ease-in-out infinite;
+    animation: hub-pulse 2s ease-in-out infinite;
   }
-  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+  @keyframes hub-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
   .hub-header-title { font-size: 13px; font-weight: 500; color: #94a3b8; }
-  .hub-demo-badge { font-size: 11px; color: #475569; padding: 3px 8px; border: 1px solid #1e2a3e; border-radius: 4px; }
+  .hub-demo-badge { font-size: 11px; color: #475569; padding: 3px 8px; border: 1px solid #1e2a3e; border-radius: 4px; letter-spacing: 0.5px; }
   .hub-main { display: flex; min-height: 480px; }
   .hub-sidebar { width: 240px; border-right: 1px solid #1e2a3e; display: flex; flex-direction: column; flex-shrink: 0; }
   .hub-tabs { display: flex; overflow-x: auto; border-bottom: 1px solid #1e2a3e; padding: 0 4px; scrollbar-width: none; }
@@ -233,44 +228,51 @@
   .hub-msg-preview { font-size: 12px; color: #64748b; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 36px; }
   .hub-chat-area { flex: 1; display: flex; flex-direction: column; min-width: 0; }
   .hub-placeholder { flex: 1; display: flex; align-items: center; justify-content: center; }
-  .hub-placeholder-inner { text-align: center; color: #475569; }
-  .hub-placeholder-icon { font-size: 28px; margin-bottom: 12px; }
-  .hub-placeholder-text { font-size: 14px; }
+  .hub-placeholder-icon { font-size: 28px; margin-bottom: 12px; color: #475569; }
+  .hub-placeholder-text { font-size: 14px; color: #475569; }
   .hub-detail { flex: 1; display: none; flex-direction: column; }
   .hub-detail.visible { display: flex; }
   .hub-detail-header { padding: 14px 16px; border-bottom: 1px solid #1e2a3e; display: flex; align-items: center; gap: 10px; }
-  .hub-detail-info { min-width: 0; }
   .hub-detail-name { font-size: 14px; font-weight: 500; }
   .hub-detail-tool { font-size: 11px; color: #64748b; }
   .hub-badge { margin-left: auto; font-size: 10px; padding: 2px 8px; border-radius: 4px; flex-shrink: 0; font-weight: 500; }
   .hub-chat { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; scrollbar-width: thin; scrollbar-color: #1e2a3e transparent; }
-  .hub-bub-them { display: flex; gap: 8px; align-items: flex-start; max-width: 85%; animation: fadeSlideLeft 0.3s ease; }
-  @keyframes fadeSlideLeft { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes hub-fadeL { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes hub-fadeR { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes hub-fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .hub-bub-them { display: flex; gap: 8px; align-items: flex-start; max-width: 85%; animation: hub-fadeL 0.3s ease; }
   .hub-bub-them-avatar { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; color: #fff; flex-shrink: 0; margin-top: 2px; }
   .hub-bub-them-text { background: #1a2236; border-radius: 2px 10px 10px 10px; padding: 10px 14px; font-size: 13px; line-height: 1.7; color: #cbd5e1; }
-  .hub-bub-ai-wrap { display: flex; flex-direction: column; align-items: flex-end; max-width: 85%; margin-left: auto; animation: fadeSlideRight 0.3s ease; }
-  @keyframes fadeSlideRight { from { opacity: 0; transform: translateX(8px); } to { opacity: 1; transform: translateX(0); } }
+  .hub-bub-ai-wrap { display: flex; flex-direction: column; align-items: flex-end; max-width: 85%; margin-left: auto; animation: hub-fadeR 0.3s ease; }
   .hub-bub-ai-label { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; }
   .hub-bub-ai-dot { width: 5px; height: 5px; border-radius: 50%; background: #8b5cf6; }
   .hub-bub-ai-tag { font-size: 10px; color: #7c3aed; font-weight: 500; }
   .hub-bub-ai-sent { font-size: 10px; color: #4ade80; margin-left: 4px; }
-  .hub-bub-ai-text { background: #1e1b3a; border: 1px solid #2d2b55; border-radius: 10px 2px 10px 10px; padding: 10px 14px; font-size: 13px; line-height: 1.7; white-space: pre-line; min-width: 140px; }
+  .hub-bub-ai-text { background: #1e1b3a; border: 1px solid #2d2b55; border-radius: 10px 2px 10px 10px; padding: 10px 14px; font-size: 13px; line-height: 1.7; white-space: pre-line; min-width: 140px; width: 100%; }
   .hub-bub-ai-text.sent { color: #8b7fbd; }
   .hub-bub-ai-text.active { color: #c4b5fd; }
   .hub-typing-ind { color: #7c3aed; font-size: 12px; }
-  .hub-actions { display: none; margin-top: 8px; gap: 8px; }
+  .hub-edit-ta { width: 100%; background: #16132e; border: 1px solid #4c3d99; border-radius: 8px; padding: 10px 12px; font-size: 13px; line-height: 1.7; color: #c4b5fd; font-family: inherit; resize: vertical; min-height: 80px; outline: none; transition: border-color 0.15s; }
+  .hub-edit-ta:focus { border-color: #7c3aed; }
+  .hub-edit-note { font-size: 10px; color: #64748b; margin-top: 6px; font-style: italic; }
+  .hub-actions { display: none; margin-top: 8px; gap: 8px; flex-wrap: wrap; }
   .hub-actions.visible { display: flex; }
   .hub-btn-send { padding: 7px 18px; font-size: 12px; background: #7c3aed; color: #fff; border: none; border-radius: 6px; cursor: pointer; font-family: inherit; font-weight: 500; transition: background 0.15s, transform 0.1s; }
   .hub-btn-send:hover { background: #6d28d9; }
   .hub-btn-send:active { transform: scale(0.97); }
+  .hub-btn-edit { padding: 7px 18px; font-size: 12px; background: none; color: #c4b5fd; border: 1px solid #4c3d99; border-radius: 6px; cursor: pointer; font-family: inherit; transition: border-color 0.15s, transform 0.1s; }
+  .hub-btn-edit:hover { border-color: #7c3aed; }
+  .hub-btn-edit:active { transform: scale(0.97); }
   .hub-btn-regen { padding: 7px 18px; font-size: 12px; background: none; color: #94a3b8; border: 1px solid #2d3748; border-radius: 6px; cursor: pointer; font-family: inherit; transition: border-color 0.15s, transform 0.1s; }
   .hub-btn-regen:hover { border-color: #475569; }
   .hub-btn-regen:active { transform: scale(0.97); }
+  .hub-btn-cancel { padding: 7px 18px; font-size: 12px; background: none; color: #94a3b8; border: 1px solid #2d3748; border-radius: 6px; cursor: pointer; font-family: inherit; transition: border-color 0.15s, transform 0.1s; }
+  .hub-btn-cancel:hover { border-color: #475569; }
+  .hub-btn-cancel:active { transform: scale(0.97); }
   .hub-sent-confirm { font-size: 11px; color: #4ade80; display: flex; align-items: center; gap: 4px; }
-  .hub-incoming-note { text-align: center; padding: 6px 0; animation: fadeIn 0.3s ease; }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .hub-incoming-note { text-align: center; padding: 6px 0; animation: hub-fadeIn 0.3s ease; }
   .hub-incoming-note span { font-size: 11px; color: #64748b; background: #1a2236; padding: 4px 14px; border-radius: 10px; }
-  .hub-complete { text-align: center; padding: 16px 0; animation: fadeIn 0.5s ease; }
+  .hub-complete { text-align: center; padding: 16px 0; animation: hub-fadeIn 0.5s ease; }
   .hub-complete-inner { display: inline-flex; flex-direction: column; align-items: center; gap: 6px; background: #0c1a12; padding: 14px 24px; border-radius: 10px; border: 1px solid #14532d; }
   .hub-complete-icon { color: #4ade80; font-size: 18px; }
   .hub-complete-title { font-size: 13px; color: #4ade80; font-weight: 500; }
@@ -278,18 +280,19 @@
   .hub-footer { padding: 8px 16px; background: #161d2e; border-top: 1px solid #1e2a3e; display: flex; align-items: center; justify-content: space-between; }
   .hub-footer-status { font-size: 11px; color: #22c55e; }
   .hub-footer-brand { font-size: 10px; color: #334155; }
-  @media (max-width: 640px) {
+  @media (max-width: 700px) {
     .hub-sidebar { width: 200px; }
-    .hub-main { min-height: 400px; }
+    .hub-main { min-height: 420px; }
     .hub-bub-them, .hub-bub-ai-wrap { max-width: 92%; }
   }
-  @media (max-width: 480px) {
+  @media (max-width: 520px) {
     .hub-sidebar { width: 72px; }
     .hub-msg-meta, .hub-msg-preview, .hub-unread-dot { display: none; }
     .hub-avatar { width: 36px; height: 36px; font-size: 13px; }
-    .hub-msg-item { padding: 10px 8px; display: flex; justify-content: center; }
+    .hub-msg-item { display: flex; justify-content: center; }
     .hub-msg-row { margin-bottom: 0; }
     .hub-tabs { display: none; }
+    .hub-main { min-height: 380px; }
   }
 
   /* ===== FLOW SECTION ===== */
@@ -497,15 +500,15 @@
       </div>
       <div class="hub-chat-area">
         <div class="hub-placeholder" id="hubPlaceholder">
-          <div class="hub-placeholder-inner">
+          <div style="text-align: center;">
             <div class="hub-placeholder-icon">&#9664;</div>
             <p class="hub-placeholder-text">メッセージを選択してください</p>
           </div>
         </div>
         <div class="hub-detail" id="hubDetail">
           <div class="hub-detail-header">
-            <div class="hub-avatar hub-avatar-lg" id="hAvatar"></div>
-            <div class="hub-detail-info">
+            <div class="hub-avatar hub-avatar-lg" id="hAv"></div>
+            <div>
               <div class="hub-detail-name" id="hName"></div>
               <div class="hub-detail-tool" id="hTool"></div>
             </div>
@@ -608,7 +611,7 @@
 </footer>
 
 <script>
-  // ===== Interactive Demo =====
+  // ===== Interactive Demo v5 =====
   (function() {
     'use strict';
 
@@ -685,7 +688,7 @@
       }
     ];
 
-    var tabs = [
+    var tabDefs = [
       { key: 'all', label: 'All' },
       { key: 'slack', label: 'Slack' },
       { key: 'gmail', label: 'Gmail' },
@@ -694,57 +697,37 @@
       { key: 'lw', label: 'LW' }
     ];
 
-    var curTab = 'all';
-    var selId = null;
-    var round = {};
-    var timers = [];
-    var typing = false;
+    var curTab = 'all', selId = null, round = {}, timers = [], typing = false, editMode = false;
 
-    function init() { renderTabs(); renderList(); }
-
-    function cl() {
-      for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]);
-      timers = []; typing = false;
-    }
-
-    function esc(s) {
-      var d = document.createElement('div');
-      d.textContent = s;
-      return d.innerHTML;
-    }
+    function cl() { for (var i = 0; i < timers.length; i++) clearTimeout(timers[i]); timers = []; typing = false; }
+    function esc(s) { var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+    function find(id) { for (var i = 0; i < convos.length; i++) { if (convos[i].id === id) return convos[i]; } return null; }
+    function unreadCount() { var c = 0; for (var i = 0; i < convos.length; i++) { if (convos[i].unread) c++; } return c; }
+    function updBadge() { var el = document.getElementById('hubBC'); if (el) el.textContent = unreadCount(); }
 
     function renderTabs() {
-      var html = '';
-      for (var i = 0; i < tabs.length; i++) {
-        var t = tabs[i];
-        var isActive = t.key === curTab;
-        html += '<button class="hub-tab' + (isActive ? ' active' : '') + '" data-tab="' + t.key + '" onclick="hubSwitchTab(\'' + t.key + '\')">' + t.label;
-        if (t.key === 'all') html += ' <span class="hub-tab-badge" id="hubBadgeCount">' + getUnreadCount() + '</span>';
-        html += '</button>';
+      var h = '';
+      for (var i = 0; i < tabDefs.length; i++) {
+        var t = tabDefs[i], a = t.key === curTab;
+        h += '<button class="hub-tab' + (a ? ' active' : '') + '" data-tab="' + t.key + '" onclick="hubTab(\'' + t.key + '\')">' + t.label;
+        if (t.key === 'all') h += ' <span class="hub-tab-badge" id="hubBC">' + unreadCount() + '</span>';
+        h += '</button>';
       }
-      document.getElementById('hubTabs').innerHTML = html;
+      document.getElementById('hubTabs').innerHTML = h;
     }
 
-    function getUnreadCount() {
-      var c = 0;
-      for (var i = 0; i < convos.length; i++) { if (convos[i].unread) c++; }
-      return c;
-    }
-
-    window.hubSwitchTab = function(t) { curTab = t; renderTabs(); renderList(); };
+    window.hubTab = function(t) { curTab = t; renderTabs(); renderList(); };
 
     function renderList() {
       var f = [];
       for (var i = 0; i < convos.length; i++) {
         if (curTab === 'all' || convos[i].tool === curTab) f.push(convos[i]);
       }
-      var html = '';
+      var h = '';
       for (var i = 0; i < f.length; i++) {
-        var m = f[i];
-        var r = round[m.id] || 0;
-        var previewIdx = Math.min(r * 2, m.steps.length - 1);
-        var preview = esc(m.steps[previewIdx].text.substring(0, 28)) + '...';
-        html += '<div class="hub-msg-item' + (selId === m.id ? ' selected' : '') + '" onclick="hubOpenConvo(' + m.id + ')">' +
+        var m = f[i], r = round[m.id] || 0;
+        var pi = Math.min(r * 2, m.steps.length - 1);
+        h += '<div class="hub-msg-item' + (selId === m.id ? ' selected' : '') + '" onclick="hubOpen(' + m.id + ')">' +
           '<div class="hub-msg-row">' +
             '<div class="hub-avatar" style="background:' + m.col + '">' + esc(m.ini) + '</div>' +
             '<div class="hub-msg-meta">' +
@@ -756,20 +739,20 @@
             '</div>' +
             (m.unread ? '<div class="hub-unread-dot"></div>' : '') +
           '</div>' +
-          '<p class="hub-msg-preview">' + preview + '</p>' +
+          '<p class="hub-msg-preview">' + esc(m.steps[pi].text.substring(0, 28)) + '...</p>' +
         '</div>';
       }
-      document.getElementById('hubMsgList').innerHTML = html;
+      document.getElementById('hubMsgList').innerHTML = h;
     }
 
-    window.hubOpenConvo = function(id) {
-      cl(); selId = id;
+    window.hubOpen = function(id) {
+      cl(); editMode = false; selId = id;
       if (round[id] === undefined) round[id] = 0;
-      var m = findConvo(id);
+      var m = find(id);
       document.getElementById('hubPlaceholder').style.display = 'none';
       document.getElementById('hubDetail').classList.add('visible');
-      document.getElementById('hAvatar').style.background = m.col;
-      document.getElementById('hAvatar').textContent = m.ini;
+      document.getElementById('hAv').style.background = m.col;
+      document.getElementById('hAv').textContent = m.ini;
       document.getElementById('hName').textContent = m.name;
       document.getElementById('hTool').textContent = m.tl;
       var b = document.getElementById('hBadge');
@@ -778,27 +761,20 @@
       buildChat(id); renderList();
     };
 
-    function findConvo(id) {
-      for (var i = 0; i < convos.length; i++) { if (convos[i].id === id) return convos[i]; }
-      return null;
-    }
-
     function buildChat(id) {
-      var m = findConvo(id);
-      var chat = document.getElementById('hubChat');
+      var m = find(id), chat = document.getElementById('hubChat');
       chat.innerHTML = '';
-      var r = round[id] || 0;
-      var maxPairs = Math.floor(m.steps.length / 2);
-      for (var p = 0; p < r && p < maxPairs; p++) {
+      var r = round[id] || 0, mp = Math.floor(m.steps.length / 2);
+      for (var p = 0; p < r && p < mp; p++) {
         chat.innerHTML += themBub(m.steps[p * 2].text, m);
         chat.innerHTML += sentAiBub(m.steps[p * 2 + 1].text);
       }
-      if (r < maxPairs) {
+      if (r < mp) {
         chat.innerHTML += themBub(m.steps[r * 2].text, m);
         chat.scrollTop = chat.scrollHeight;
-        startAiTyping(id, m.steps[r * 2 + 1].text);
+        startTyping(id, m.steps[r * 2 + 1].text);
       } else {
-        m.unread = false; updateBadge();
+        m.unread = false; updBadge();
         chat.innerHTML += '<div class="hub-complete"><div class="hub-complete-inner"><span class="hub-complete-icon">&#10003;</span><span class="hub-complete-title">会話完了</span><span class="hub-complete-sub">全てのメッセージに対応しました</span></div></div>';
         chat.scrollTop = chat.scrollHeight;
       }
@@ -807,75 +783,102 @@
     function themBub(t, m) {
       return '<div class="hub-bub-them"><div class="hub-bub-them-avatar" style="background:' + m.col + '">' + esc(m.ini) + '</div><div class="hub-bub-them-text">' + esc(t) + '</div></div>';
     }
-
     function sentAiBub(t) {
       return '<div class="hub-bub-ai-wrap"><div class="hub-bub-ai-label"><div class="hub-bub-ai-dot"></div><span class="hub-bub-ai-tag">AI返信</span><span class="hub-bub-ai-sent">&#10003; 送信済み</span></div><div class="hub-bub-ai-text sent">' + esc(t) + '</div></div>';
     }
 
-    function startAiTyping(id, fullText) {
-      typing = true;
+    function startTyping(id, fullText) {
+      typing = true; editMode = false;
       var chat = document.getElementById('hubChat');
-      var wrId = 'ai-wr-' + id;
-      chat.innerHTML += '<div id="' + wrId + '" class="hub-bub-ai-wrap"><div class="hub-bub-ai-label"><div class="hub-bub-ai-dot"></div><span class="hub-bub-ai-tag">AI返信提案</span></div><div class="hub-bub-ai-text active"><span id="typing-ind" class="hub-typing-ind">生成中</span><span id="typed-text"></span></div><div class="hub-actions" id="ai-actions"></div></div>';
+      chat.innerHTML += '<div id="aiWr" class="hub-bub-ai-wrap"><div class="hub-bub-ai-label"><div class="hub-bub-ai-dot"></div><span class="hub-bub-ai-tag">AI返信提案</span></div><div id="aiBub" class="hub-bub-ai-text active"><span id="typInd" class="hub-typing-ind">生成中</span><span id="typTxt"></span></div><div id="aiAct" class="hub-actions"></div></div>';
       chat.scrollTop = chat.scrollHeight;
       var dots = 0;
-      var dotTimer = setInterval(function() {
+      var dotT = setInterval(function() {
         dots = (dots + 1) % 4;
-        var el = document.getElementById('typing-ind');
+        var el = document.getElementById('typInd');
         if (el) el.textContent = '生成中' + Array(dots + 1).join('.');
       }, 400);
       timers.push(setTimeout(function() {
-        clearInterval(dotTimer);
-        var ind = document.getElementById('typing-ind');
+        clearInterval(dotT);
+        var ind = document.getElementById('typInd');
         if (ind) ind.textContent = '';
-        var txtEl = document.getElementById('typed-text');
+        var txtEl = document.getElementById('typTxt');
         if (!txtEl) return;
-        var chars = fullText.split('');
-        var ci = 0;
-        function typeChar() {
+        var chars = fullText.split(''), ci = 0;
+        function tc() {
           if (selId !== id || !typing) return;
           if (ci < chars.length) {
             txtEl.textContent += chars[ci]; ci++;
             chat.scrollTop = chat.scrollHeight;
             var d = chars[ci - 1] === '\n' ? 80 : 22 + Math.random() * 18;
-            timers.push(setTimeout(typeChar, d));
+            timers.push(setTimeout(tc, d));
           } else {
-            var act = document.getElementById('ai-actions');
+            var act = document.getElementById('aiAct');
             if (act) {
               act.classList.add('visible');
-              act.innerHTML = '<button class="hub-btn-send" onclick="hubDoSend(' + id + ')">送信する</button><button class="hub-btn-regen" onclick="hubDoRegen(' + id + ')">再生成</button>';
+              act.innerHTML = '<button class="hub-btn-send" onclick="hubSend(' + id + ')">送信する</button><button class="hub-btn-edit" onclick="hubEdit(' + id + ')">&#9998; 編集</button><button class="hub-btn-regen" onclick="hubRegen(' + id + ')">再生成</button>';
             }
             chat.scrollTop = chat.scrollHeight;
           }
         }
-        typeChar();
+        tc();
       }, 1800));
     }
 
-    window.hubDoSend = function(id) {
+    window.hubEdit = function(id) {
+      editMode = true;
+      var m = find(id), r = round[id] || 0, origText = m.steps[r * 2 + 1].text;
+      var bub = document.getElementById('aiBub');
+      if (!bub) return;
+      bub.innerHTML = '<textarea id="editTa" class="hub-edit-ta" rows="6">' + esc(origText) + '</textarea><div class="hub-edit-note">※ デモのため、送信後の会話はシナリオに沿って進みます</div>';
+      var ta = document.getElementById('editTa');
+      if (ta) { ta.focus(); ta.setSelectionRange(ta.value.length, ta.value.length); }
+      var act = document.getElementById('aiAct');
+      if (act) { act.innerHTML = '<button class="hub-btn-send" onclick="hubSend(' + id + ')">送信する</button><button class="hub-btn-cancel" onclick="hubCancelEdit(' + id + ')">キャンセル</button>'; }
+      document.getElementById('hubChat').scrollTop = document.getElementById('hubChat').scrollHeight;
+    };
+
+    window.hubCancelEdit = function(id) {
+      editMode = false;
+      var m = find(id), r = round[id] || 0;
+      var bub = document.getElementById('aiBub');
+      if (bub) bub.innerHTML = '<span id="typTxt">' + esc(m.steps[r * 2 + 1].text) + '</span>';
+      var act = document.getElementById('aiAct');
+      if (act) act.innerHTML = '<button class="hub-btn-send" onclick="hubSend(' + id + ')">送信する</button><button class="hub-btn-edit" onclick="hubEdit(' + id + ')">&#9998; 編集</button><button class="hub-btn-regen" onclick="hubRegen(' + id + ')">再生成</button>';
+      document.getElementById('hubChat').scrollTop = document.getElementById('hubChat').scrollHeight;
+    };
+
+    window.hubSend = function(id) {
       cl();
-      var m = findConvo(id);
-      var r = round[id] || 0;
-      var maxPairs = Math.floor(m.steps.length / 2);
+      var m = find(id), r = round[id] || 0, mp = Math.floor(m.steps.length / 2);
       var chat = document.getElementById('hubChat');
-      var act = document.getElementById('ai-actions');
+      var bub = document.getElementById('aiBub');
+      if (bub) {
+        var ta = document.getElementById('editTa');
+        var displayText = ta ? ta.value : m.steps[r * 2 + 1].text;
+        bub.innerHTML = esc(displayText);
+        bub.style.whiteSpace = 'pre-line';
+        bub.className = 'hub-bub-ai-text sent';
+      }
+      editMode = false;
+      var act = document.getElementById('aiAct');
       if (act) { act.classList.add('visible'); act.innerHTML = '<span class="hub-sent-confirm"><span>&#10003;</span> ' + esc(m.tl) + ' 経由で送信完了</span>'; }
-      var nextRound = r + 1;
-      if (nextRound < maxPairs) {
+      var nr = r + 1;
+      if (nr < mp) {
         timers.push(setTimeout(function() {
           if (selId !== id) return;
-          chat.innerHTML += '<div id="incoming-note" class="hub-incoming-note"><span>' + esc(m.name) + ' が入力中...</span></div>';
+          chat.innerHTML += '<div id="incNote" class="hub-incoming-note"><span>' + esc(m.name) + ' が入力中...</span></div>';
           chat.scrollTop = chat.scrollHeight;
           timers.push(setTimeout(function() {
             if (selId !== id) return;
-            var note = document.getElementById('incoming-note');
-            if (note) note.remove();
-            round[id] = nextRound;
+            var n = document.getElementById('incNote');
+            if (n) n.remove();
+            round[id] = nr;
             buildChat(id); renderList();
           }, 2500));
         }, 1500));
       } else {
-        round[id] = nextRound;
+        round[id] = nr;
         timers.push(setTimeout(function() {
           if (selId !== id) return;
           buildChat(id); renderList();
@@ -883,22 +886,17 @@
       }
     };
 
-    window.hubDoRegen = function(id) {
-      cl();
-      var m = findConvo(id);
-      var r = round[id] || 0;
-      var wr = document.getElementById('ai-wr-' + id);
+    window.hubRegen = function(id) {
+      cl(); editMode = false;
+      var m = find(id), r = round[id] || 0;
+      var wr = document.getElementById('aiWr');
       if (wr) wr.remove();
-      startAiTyping(id, m.steps[r * 2 + 1].text);
+      startTyping(id, m.steps[r * 2 + 1].text);
       document.getElementById('hubChat').scrollTop = document.getElementById('hubChat').scrollHeight;
     };
 
-    function updateBadge() {
-      var el = document.getElementById('hubBadgeCount');
-      if (el) el.textContent = getUnreadCount();
-    }
-
-    init();
+    renderTabs();
+    renderList();
   })();
 
   // Scroll-based fade-in animation
