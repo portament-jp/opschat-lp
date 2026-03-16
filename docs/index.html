@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Communication Hub - 6つのチャットツールをAIで統合管理</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap');
+
+  :root {
+    --bg: #0a0b10;
+    --bg2: #12131a;
+    --bg3: #1a1c25;
+    --bg4: #22242f;
+    --border: #2a2d3a;
+    --accent: #6c63ff;
+    --accent2: #8b83ff;
+    --accent-glow: rgba(108,99,255,0.15);
+    --green: #22c55e;
+    --slack: #4a154b;
+    --slack-light: #e01e5a;
+    --chatwork: #e2383f;
+    --teams: #5b5fc7;
+    --gmail: #ea4335;
+    --lineworks: #00c73c;
+    --messenger: #0084ff;
+    --text: #f0f0f5;
+    --text2: #b0b0c0;
+    --text3: #707080;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Noto Sans JP', 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(10,11,16,0.85); backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(42,45,58,0.5);
+    padding: 0 40px; height: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { font-size: 18px; font-weight: 700; color: var(--text); }
+  .nav-brand span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a { color: var(--text3); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--text); }
+  .nav-badge { font-size: 10px; background: var(--accent); color: #fff; padding: 3px 10px; border-radius: 12px; font-weight: 600; }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 120px 40px 80px; position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(108,99,255,0.1); border: 1px solid rgba(108,99,255,0.25);
+    padding: 6px 18px; border-radius: 20px; font-size: 12px; color: var(--accent2);
+    margin-bottom: 28px; font-weight: 500;
+  }
+  .hero-label .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  .hero h1 {
+    font-size: clamp(36px, 5vw, 62px); font-weight: 900; line-height: 1.2;
+    margin-bottom: 20px; letter-spacing: -1px;
+  }
+  .hero h1 .gradient {
+    background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 50%, #818cf8 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .hero-sub {
+    font-size: clamp(15px, 2vw, 19px); color: var(--text2); max-width: 640px;
+    line-height: 1.8; margin-bottom: 40px; font-weight: 300;
+  }
+  .hero-sub strong { color: var(--text); font-weight: 600; }
+
+  /* Tool icons row */
+  .tool-icons {
+    display: flex; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; justify-content: center;
+  }
+  .tool-icon {
+    width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 700; border: 1px solid var(--border);
+    transition: all 0.3s; cursor: default; position: relative;
+  }
+  .tool-icon:hover { transform: translateY(-4px); }
+  .tool-icon.slack { background: rgba(74,21,75,0.25); color: var(--slack-light); border-color: rgba(74,21,75,0.5); }
+  .tool-icon.gmail { background: rgba(234,67,53,0.15); color: var(--gmail); border-color: rgba(234,67,53,0.3); }
+  .tool-icon.chatwork { background: rgba(226,56,63,0.15); color: var(--chatwork); border-color: rgba(226,56,63,0.3); }
+  .tool-icon.teams { background: rgba(91,95,199,0.15); color: var(--teams); border-color: rgba(91,95,199,0.3); }
+  .tool-icon.lineworks { background: rgba(0,199,60,0.15); color: var(--lineworks); border-color: rgba(0,199,60,0.3); }
+  .tool-icon.messenger { background: rgba(0,132,255,0.15); color: var(--messenger); border-color: rgba(0,132,255,0.3); }
+  .tool-label { position: absolute; bottom: -20px; font-size: 9px; color: var(--text3); white-space: nowrap; font-weight: 500; }
+
+  .hero-cta {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;
+  }
+  .btn {
+    padding: 14px 32px; border-radius: 12px; font-size: 14px; font-weight: 600;
+    text-decoration: none; transition: all 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: var(--accent2); transform: translateY(-1px); box-shadow: 0 8px 30px rgba(108,99,255,0.3); }
+  .btn-outline { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--text); }
+
+  /* ===== SECTION ===== */
+  section { padding: 100px 40px; max-width: 1200px; margin: 0 auto; }
+  .section-label { font-size: 12px; color: var(--accent); font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-size: clamp(24px, 3vw, 38px); font-weight: 800; margin-bottom: 16px; line-height: 1.3; }
+  .section-desc { font-size: 15px; color: var(--text2); max-width: 600px; line-height: 1.8; margin-bottom: 48px; }
+
+  /* ===== PROBLEM SECTION ===== */
+  .problem-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px;
+  }
+  .problem-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 28px; transition: all 0.3s;
+  }
+  .problem-card:hover { border-color: rgba(239,68,68,0.3); background: rgba(239,68,68,0.03); }
+  .problem-icon { font-size: 28px; margin-bottom: 14px; }
+  .problem-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .problem-card p { font-size: 13px; color: var(--text3); line-height: 1.7; }
+  .problem-num { font-size: 48px; font-weight: 900; color: rgba(239,68,68,0.15); position: absolute; top: 16px; right: 20px; }
+
+  /* ===== SOLUTION / FEATURE CARDS ===== */
+  .feature-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+  }
+  .feature-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+    padding: 32px; transition: all 0.3s; position: relative; overflow: hidden;
+  }
+  .feature-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), transparent); opacity: 0; transition: opacity 0.3s;
+  }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-card:hover { border-color: rgba(108,99,255,0.3); transform: translateY(-2px); }
+  .feature-emoji { font-size: 32px; margin-bottom: 16px; display: block; }
+  .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .feature-card .cmd { font-size: 12px; color: var(--accent); font-family: monospace; margin-bottom: 10px; background: rgba(108,99,255,0.1); display: inline-block; padding: 3px 10px; border-radius: 6px; }
+  .feature-card p { font-size: 13px; color: var(--text3); line-height: 1.7; }
+
+  /* ===== ARCHITECTURE DIAGRAM ===== */
+  .arch-section { text-align: center; }
+  .arch-diagram {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 48px 32px; max-width: 900px; margin: 0 auto; position: relative;
+  }
+  .arch-layer {
+    display: flex; flex-direction: column; align-items: center; gap: 24px;
+  }
+  .arch-row {
+    display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; align-items: center;
+  }
+  .arch-box {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 20px; font-size: 13px; font-weight: 600; text-align: center;
+    min-width: 100px; transition: all 0.3s;
+  }
+  .arch-box:hover { border-color: var(--accent); transform: scale(1.03); }
+  .arch-box.ai { background: rgba(108,99,255,0.12); border-color: rgba(108,99,255,0.35); color: var(--accent2); min-width: 260px; }
+  .arch-box.tool { min-width: 80px; font-size: 11px; }
+  .arch-box.tool.slack { border-color: rgba(74,21,75,0.5); color: var(--slack-light); }
+  .arch-box.tool.gmail { border-color: rgba(234,67,53,0.3); color: var(--gmail); }
+  .arch-box.tool.chatwork { border-color: rgba(226,56,63,0.3); color: var(--chatwork); }
+  .arch-box.tool.teams { border-color: rgba(91,95,199,0.3); color: var(--teams); }
+  .arch-box.tool.lineworks { border-color: rgba(0,199,60,0.3); color: var(--lineworks); }
+  .arch-box.tool.messenger { border-color: rgba(0,132,255,0.3); color: var(--messenger); }
+  .arch-arrow { color: var(--text3); font-size: 20px; }
+  .arch-label { font-size: 11px; color: var(--text3); }
+
+  /* ===== DEMO SECTION ===== */
+  .demo-container {
+    border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    background: var(--bg2); max-width: 1000px; margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  }
+  .demo-titlebar {
+    background: var(--bg3); padding: 10px 16px; display: flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .demo-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .demo-dot.r { background: #ef4444; } .demo-dot.y { background: #eab308; } .demo-dot.g { background: #22c55e; }
+  .demo-titlebar span { font-size: 11px; color: var(--text3); margin-left: 8px; }
+  .demo-body {
+    display: flex; height: 520px;
+  }
+
+  /* Demo left panel */
+  .demo-left {
+    width: 300px; border-right: 1px solid var(--border); display: flex; flex-direction: column; flex-shrink: 0;
+    background: var(--bg2);
+  }
+  .demo-header {
+    padding: 14px; border-bottom: 1px solid var(--border);
+  }
+  .demo-brand { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .demo-brand span { color: var(--accent); }
+  .demo-search {
+    width: 100%; background: var(--bg4); border: 1px solid var(--border); color: var(--text);
+    padding: 8px 12px; border-radius: 8px; font-size: 12px; outline: none;
+  }
+  .demo-pills {
+    display: flex; gap: 4px; padding: 8px 14px; border-bottom: 1px solid var(--border); overflow-x: auto;
+  }
+  .demo-pill {
+    padding: 4px 10px; border-radius: 12px; font-size: 10px; cursor: pointer;
+    border: 1px solid var(--border); color: var(--text3); background: transparent;
+    white-space: nowrap; transition: all 0.15s;
+  }
+  .demo-pill.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .demo-pill-badge { background: #ef4444; color: #fff; font-size: 8px; padding: 1px 4px; border-radius: 4px; margin-left: 3px; }
+  .demo-convs { flex: 1; overflow-y: auto; }
+  .demo-conv {
+    padding: 10px 14px; display: flex; gap: 10px; cursor: pointer;
+    border-bottom: 1px solid rgba(42,45,58,0.3); transition: background 0.12s;
+  }
+  .demo-conv:hover { background: var(--bg3); }
+  .demo-conv.active { background: var(--bg4); }
+  .demo-conv-avatar {
+    width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; flex-shrink: 0; position: relative;
+  }
+  .demo-conv-avatar.slack { background: rgba(74,21,75,0.3); color: var(--slack-light); }
+  .demo-conv-avatar.chatwork { background: rgba(226,56,63,0.15); color: var(--chatwork); }
+  .demo-conv-avatar.teams { background: rgba(91,95,199,0.15); color: var(--teams); }
+  .demo-conv-avatar.gmail { background: rgba(234,67,53,0.15); color: var(--gmail); }
+  .demo-conv-avatar.lineworks { background: rgba(0,199,60,0.15); color: var(--lineworks); }
+  .demo-conv-avatar.messenger { background: rgba(0,132,255,0.15); color: var(--messenger); }
+  .demo-tool-dot {
+    position: absolute; bottom: -1px; right: -1px; width: 12px; height: 12px;
+    border-radius: 50%; border: 2px solid var(--bg2);
+  }
+  .demo-tool-dot.slack { background: var(--slack); }
+  .demo-tool-dot.chatwork { background: var(--chatwork); }
+  .demo-tool-dot.teams { background: var(--teams); }
+  .demo-tool-dot.gmail { background: var(--gmail); }
+  .demo-tool-dot.lineworks { background: var(--lineworks); }
+  .demo-tool-dot.messenger { background: var(--messenger); }
+  .demo-conv-info { flex: 1; min-width: 0; }
+  .demo-conv-top { display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .demo-conv-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .demo-conv-time { font-size: 9px; color: var(--text3); flex-shrink: 0; }
+  .demo-conv-preview { font-size: 11px; color: var(--text3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .demo-unread { background: var(--accent); color: #fff; font-size: 9px; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; align-self: center; }
+
+  /* Demo right panel */
+  .demo-right { flex: 1; display: flex; flex-direction: column; }
+  .demo-chat-header {
+    padding: 12px 18px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 10px;
+    background: var(--bg3);
+  }
+  .demo-chat-header h3 { font-size: 13px; font-weight: 600; }
+  .demo-chat-header small { font-size: 10px; color: var(--text3); }
+  .demo-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .demo-msg {
+    display: flex; gap: 8px; max-width: 75%; animation: msgIn 0.3s ease;
+  }
+  .demo-msg.self { align-self: flex-end; flex-direction: row-reverse; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .demo-msg-avatar {
+    width: 28px; height: 28px; border-radius: 50%; background: var(--bg4);
+    display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 600; flex-shrink: 0; color: var(--text3);
+  }
+  .demo-msg.self .demo-msg-avatar { background: rgba(108,99,255,0.2); color: var(--accent); }
+  .demo-msg-content { display: flex; flex-direction: column; gap: 2px; }
+  .demo-msg.self .demo-msg-content { align-items: flex-end; }
+  .demo-msg-name { font-size: 10px; color: var(--text3); }
+  .demo-msg-bubble {
+    padding: 9px 13px; border-radius: 14px; font-size: 12px; line-height: 1.6;
+  }
+  .demo-msg:not(.self) .demo-msg-bubble { background: var(--bg4); border-top-left-radius: 4px; color: var(--text2); }
+  .demo-msg.self .demo-msg-bubble { background: var(--accent); color: #fff; border-top-right-radius: 4px; }
+  .demo-msg-time { font-size: 9px; color: var(--text3); }
+  .demo-compose {
+    padding: 12px 16px; border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center;
+    background: var(--bg3);
+  }
+  .demo-compose-input {
+    flex: 1; background: var(--bg4); border: 1px solid var(--border); color: var(--text);
+    padding: 9px 14px; border-radius: 20px; font-size: 12px; outline: none;
+  }
+  .demo-compose-btn {
+    width: 34px; height: 34px; border-radius: 50%; background: var(--accent); border: none;
+    color: #fff; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  }
+  .demo-status { padding: 5px 14px; font-size: 9px; color: var(--text3); display: flex; justify-content: space-between; border-top: 1px solid var(--border); }
+  .demo-status-dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--green); margin-right: 4px; }
+
+  /* AI Reply suggestion */
+  .ai-reply-box {
+    margin: 8px 16px; padding: 12px 16px; background: rgba(108,99,255,0.06); border: 1px solid rgba(108,99,255,0.2);
+    border-radius: 12px; animation: msgIn 0.5s ease;
+  }
+  .ai-reply-label { font-size: 10px; color: var(--accent); font-weight: 600; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+  .ai-reply-text { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .ai-reply-actions { margin-top: 8px; display: flex; gap: 6px; }
+  .ai-reply-btn { padding: 4px 12px; border-radius: 6px; font-size: 10px; border: none; cursor: pointer; font-weight: 600; }
+  .ai-reply-btn.send { background: var(--accent); color: #fff; }
+  .ai-reply-btn.edit { background: var(--bg4); color: var(--text2); border: 1px solid var(--border); }
+
+  /* ===== FLOW SECTION ===== */
+  .flow-steps {
+    display: flex; gap: 0; align-items: flex-start; justify-content: center; flex-wrap: wrap;
+  }
+  .flow-step {
+    flex: 0 0 200px; text-align: center; padding: 24px 16px; position: relative;
+  }
+  .flow-step-num {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700;
+    margin: 0 auto 14px;
+  }
+  .flow-step h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .flow-step p { font-size: 12px; color: var(--text3); line-height: 1.6; }
+  .flow-arrow {
+    flex: 0 0 40px; display: flex; align-items: center; justify-content: center;
+    color: var(--text3); font-size: 20px; padding-top: 30px;
+  }
+
+  /* ===== COMPARISON TABLE ===== */
+  .compare-table {
+    width: 100%; border-collapse: collapse; margin-top: 24px;
+  }
+  .compare-table th, .compare-table td {
+    padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px;
+  }
+  .compare-table th {
+    background: var(--bg3); color: var(--text3); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .compare-table td:first-child { font-weight: 600; }
+  .compare-table tr:hover { background: rgba(108,99,255,0.03); }
+  .check { color: var(--green); font-weight: 700; }
+  .cross { color: #ef4444; }
+
+  /* ===== PRICING / CTA ===== */
+  .cta-section {
+    text-align: center; padding: 80px 40px; margin: 60px auto;
+    max-width: 800px; background: var(--bg2); border: 1px solid var(--border); border-radius: 24px;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: ''; position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(108,99,255,0.08) 0%, transparent 70%);
+  }
+  .cta-section h2 { font-size: 28px; font-weight: 800; margin-bottom: 12px; position: relative; }
+  .cta-section p { font-size: 14px; color: var(--text2); margin-bottom: 32px; position: relative; line-height: 1.8; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center; padding: 40px; color: var(--text3); font-size: 11px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  .fade-up {
+    opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    nav { padding: 0 16px; }
+    .nav-links { display: none; }
+    section { padding: 60px 20px; }
+    .hero { padding: 100px 20px 60px; }
+    .demo-body { flex-direction: column; height: auto; }
+    .demo-left { width: 100%; border-right: none; border-bottom: 1px solid var(--border); max-height: 300px; }
+    .flow-arrow { display: none; }
+    .flow-step { flex: 0 0 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand"><span>Communication</span> Hub</div>
+  <div class="nav-links">
+    <a href="#problem">課題</a>
+    <a href="#solution">機能</a>
+    <a href="#demo">デモ</a>
+    <a href="#architecture">仕組み</a>
+    <a href="#compare">比較</a>
+  </div>
+  <span class="nav-badge">Powered by AI</span>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-label"><span class="dot"></span>AI統合メッセージング</div>
+  <h1>
+    6つのチャットを<br>
+    <span class="gradient">1つの画面で。</span>
+  </h1>
+  <p class="hero-sub">
+    Slack・Gmail・Chatwork・Teams・LINE WORKS・Messenger<br>
+    <strong>AIが全ツールを統合管理</strong>し、未読確認・返信・送信を一元化。<br>
+    ツール切り替えのストレスから解放されます。
+  </p>
+  <div class="tool-icons">
+    <div class="tool-icon slack">S<span class="tool-label">Slack</span></div>
+    <div class="tool-icon gmail">G<span class="tool-label">Gmail</span></div>
+    <div class="tool-icon chatwork">C<span class="tool-label">Chatwork</span></div>
+    <div class="tool-icon teams">T<span class="tool-label">Teams</span></div>
+    <div class="tool-icon lineworks">L<span class="tool-label">LINE WORKS</span></div>
+    <div class="tool-icon messenger">M<span class="tool-label">Messenger</span></div>
+  </div>
+  <div class="hero-cta">
+    <a href="#demo" class="btn btn-primary">デモを見る</a>
+    <a href="#solution" class="btn btn-outline">機能詳細</a>
+  </div>
+</section>
+
+<!-- PROBLEM -->
+<section id="problem">
+  <div class="section-label fade-up">Problem</div>
+  <div class="section-title fade-up">こんな課題、ありませんか？</div>
+  <div class="section-desc fade-up">複数ツールの管理に追われ、本来の業務に集中できない...</div>
+  <div class="problem-grid">
+    <div class="problem-card fade-up" style="position:relative;">
+      <div class="problem-icon">&#128561;</div>
+      <h3>ツールが多すぎて確認が追いつかない</h3>
+      <p>Slack、Chatwork、Teams、Gmail、LINE WORKS... 1日に何度もツールを切り替え、未読を確認する作業に時間を取られていませんか？</p>
+    </div>
+    <div class="problem-card fade-up" style="position:relative;">
+      <div class="problem-icon">&#128168;</div>
+      <h3>重要メッセージの見落とし</h3>
+      <p>複数ツールに分散した連絡の中で、顧客やVIPからの重要メッセージを見落としてしまうリスク。対応遅延は信頼に直結します。</p>
+    </div>
+    <div class="problem-card fade-up" style="position:relative;">
+      <div class="problem-icon">&#9200;</div>
+      <h3>返信の作成に時間がかかる</h3>
+      <p>相手や文脈に応じた適切な返信文を考える時間。特に社外向けメッセージは慎重になり、対応スピードが落ちてしまいます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section id="solution">
+  <div class="section-label fade-up">Solution</div>
+  <div class="section-title fade-up">Communication Hub で解決</div>
+  <div class="section-desc fade-up">AIが6つのツールを統合。確認・返信・送信をワンストップで。</div>
+  <div class="feature-grid">
+    <div class="feature-card fade-up">
+      <span class="feature-emoji">&#128229;</span>
+      <div class="cmd">/inbox</div>
+      <h3>全ツール未読一括確認</h3>
+      <p>6つのチャットツールの未読メッセージをワンコマンドで一覧表示。緊急度に応じた優先順位表示で、見落としゼロへ。</p>
+    </div>
+    <div class="feature-card fade-up">
+      <span class="feature-emoji">&#128640;</span>
+      <div class="cmd">/send</div>
+      <h3>全ツール統合送信</h3>
+      <p>どのツールでも同じ操作でメッセージを送信。ツールを切り替える必要なし。送信前に必ず確認画面を表示。</p>
+    </div>
+    <div class="feature-card fade-up">
+      <span class="feature-emoji">&#129302;</span>
+      <div class="cmd">/smart-reply</div>
+      <h3>AI自動返信提案</h3>
+      <p>受信メッセージの文脈・相手の属性（社内/社外/VIP）を分析し、最適な返信案を自動生成。ワンクリックで送信。</p>
+    </div>
+    <div class="feature-card fade-up">
+      <span class="feature-emoji">&#128065;</span>
+      <div class="cmd">/watch</div>
+      <h3>リアルタイム監視</h3>
+      <p>バックグラウンドで全ツールを常時監視。新着メッセージを即座に検知し、通知と返信案を自動提示。</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section id="demo">
+  <div class="section-label fade-up" style="text-align:center;">Live Demo</div>
+  <div class="section-title fade-up" style="text-align:center;">統合メッセージング画面</div>
+  <div class="section-desc fade-up" style="text-align:center;margin:0 auto 48px;">全ツールのメッセージを一つの画面で管理。AIが返信を提案します。</div>
+
+  <div class="demo-container fade-up">
+    <div class="demo-titlebar">
+      <div class="demo-dot r"></div><div class="demo-dot y"></div><div class="demo-dot g"></div>
+      <span>Communication Hub v2.0</span>
+    </div>
+    <div class="demo-body">
+      <!-- Left -->
+      <div class="demo-left">
+        <div class="demo-header">
+          <div class="demo-brand"><span>Communication</span> Hub</div>
+          <input class="demo-search" placeholder="チャット・メッセージを検索..." readonly />
+        </div>
+        <div class="demo-pills">
+          <div class="demo-pill active">すべて<span class="demo-pill-badge">8</span></div>
+          <div class="demo-pill">Slack<span class="demo-pill-badge">3</span></div>
+          <div class="demo-pill">CW<span class="demo-pill-badge">2</span></div>
+          <div class="demo-pill">Teams</div>
+          <div class="demo-pill">Gmail<span class="demo-pill-badge">2</span></div>
+          <div class="demo-pill">LW<span class="demo-pill-badge">1</span></div>
+          <div class="demo-pill">MSG</div>
+        </div>
+        <div class="demo-convs" id="demoConvs"></div>
+      </div>
+      <!-- Right -->
+      <div class="demo-right" id="demoRight">
+        <div class="demo-chat-header">
+          <div class="demo-conv-avatar slack" style="width:32px;height:32px;font-size:12px;">&#30000;</div>
+          <div>
+            <h3>田中 美咲</h3>
+            <small>Slack DM</small>
+          </div>
+        </div>
+        <div class="demo-messages" id="demoMessages">
+          <div class="demo-msg">
+            <div class="demo-msg-avatar">&#30000;</div>
+            <div class="demo-msg-content">
+              <div class="demo-msg-name">田中 美咲</div>
+              <div class="demo-msg-bubble">お疲れ様です！先日ご提案いただいた件、社内で検討しました。<br>来週火曜日に詳細の打ち合わせをお願いできますでしょうか？</div>
+              <div class="demo-msg-time">14:32</div>
+            </div>
+          </div>
+          <div class="demo-msg">
+            <div class="demo-msg-avatar">&#30000;</div>
+            <div class="demo-msg-content">
+              <div class="demo-msg-name">田中 美咲</div>
+              <div class="demo-msg-bubble">午前中であれば10:00-12:00のいずれかで調整可能です。</div>
+              <div class="demo-msg-time">14:33</div>
+            </div>
+          </div>
+        </div>
+        <!-- AI suggestion -->
+        <div class="ai-reply-box">
+          <div class="ai-reply-label">&#10024; AI返信提案（Smart Reply）</div>
+          <div class="ai-reply-text">田中様、お疲れ様です。ご検討いただきありがとうございます！来週火曜日、10:00からでお願いできればと思います。場所はオンライン（Zoom）でいかがでしょうか？</div>
+          <div class="ai-reply-actions">
+            <button class="ai-reply-btn send" onclick="demoSendAI()">&#x27A4; この内容で送信</button>
+            <button class="ai-reply-btn edit">&#9998; 編集する</button>
+          </div>
+        </div>
+        <div class="demo-compose">
+          <input class="demo-compose-input" placeholder="メッセージを入力... (Slack: 田中 美咲)" readonly />
+          <button class="demo-compose-btn">&#x27A4;</button>
+        </div>
+        <div class="demo-status">
+          <span><span class="demo-status-dot"></span>AI接続中 | 全ツール監視中</span>
+          <span>Powered by Communication Hub</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="flow">
+  <div class="section-label fade-up" style="text-align:center;">How it Works</div>
+  <div class="section-title fade-up" style="text-align:center;">3ステップで完結</div>
+  <div class="section-desc fade-up" style="text-align:center;margin:0 auto 48px;">導入もオペレーションもシンプル。</div>
+  <div class="flow-steps fade-up">
+    <div class="flow-step">
+      <div class="flow-step-num">1</div>
+      <h4>未読を確認</h4>
+      <p>全ツールの未読メッセージを<br>一覧で確認</p>
+    </div>
+    <div class="flow-arrow">&#8594;</div>
+    <div class="flow-step">
+      <div class="flow-step-num">2</div>
+      <h4>AIが返信案を提案</h4>
+      <p>相手・文脈に応じた<br>返信案を自動生成</p>
+    </div>
+    <div class="flow-arrow">&#8594;</div>
+    <div class="flow-step">
+      <div class="flow-step-num">3</div>
+      <h4>確認して送信</h4>
+      <p>内容を確認し<br>ワンクリックで送信</p>
+    </div>
+  </div>
+</section>
+
+<!-- ARCHITECTURE -->
+<section id="architecture" class="arch-section">
+  <div class="section-label fade-up">Architecture</div>
+  <div class="section-title fade-up">システム構成</div>
+  <div class="section-desc fade-up" style="margin:0 auto 48px;">API連携とブラウザ操作を組み合わせ、あらゆるツールに対応。</div>
+  <div class="arch-diagram fade-up">
+    <div class="arch-layer">
+      <div class="arch-row">
+        <div class="arch-box ai">&#129302; Communication Hub（AIエンジン）</div>
+      </div>
+      <div class="arch-label">&#8595; API / ブラウザ自動操作 &#8595;</div>
+      <div class="arch-row">
+        <div class="arch-box tool slack">Slack<br><small style="font-size:9px;opacity:0.6">API</small></div>
+        <div class="arch-box tool gmail">Gmail<br><small style="font-size:9px;opacity:0.6">API</small></div>
+        <div class="arch-box tool chatwork">Chatwork<br><small style="font-size:9px;opacity:0.6">API/Web</small></div>
+        <div class="arch-box tool teams">Teams<br><small style="font-size:9px;opacity:0.6">API/Web</small></div>
+        <div class="arch-box tool lineworks">LINE WORKS<br><small style="font-size:9px;opacity:0.6">API/Web</small></div>
+        <div class="arch-box tool messenger">Messenger<br><small style="font-size:9px;opacity:0.6">Web</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+<section id="compare">
+  <div class="section-label fade-up">Comparison</div>
+  <div class="section-title fade-up">従来 vs Communication Hub</div>
+  <div class="section-desc fade-up">ツール切り替えの手間を一気に解消。</div>
+  <div class="fade-up" style="overflow-x:auto;">
+    <table class="compare-table">
+      <thead>
+        <tr><th>項目</th><th>従来の運用</th><th>Communication Hub</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>未読確認</td><td class="cross">6つのツールを個別に開いて確認</td><td class="check">ワンコマンドで全ツール一括確認</td></tr>
+        <tr><td>メッセージ送信</td><td class="cross">各ツールにログインして個別送信</td><td class="check">1つの画面からどのツールにも送信</td></tr>
+        <tr><td>返信作成</td><td class="cross">手動で文面を考えて入力</td><td class="check">AIが文脈に合った返信案を自動生成</td></tr>
+        <tr><td>見落とし防止</td><td class="cross">各ツールの通知に依存</td><td class="check">リアルタイム監視＋緊急度判定</td></tr>
+        <tr><td>対応スピード</td><td class="cross">ツール切替に平均30秒〜1分</td><td class="check">即座に確認・返信（数秒）</td></tr>
+        <tr><td>VIP対応</td><td class="cross">重要な相手も通常通知と同列</td><td class="check">VIP自動検出＋優先表示</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- CTA -->
+<div style="max-width:1200px;margin:0 auto;padding:0 40px;">
+  <div class="cta-section fade-up">
+    <h2>コミュニケーションを、<br>もっとスマートに。</h2>
+    <p>Communication Hub は、貴社のチャットツール運用を<br>AIの力で劇的に効率化します。</p>
+    <a href="#demo" class="btn btn-primary" style="display:inline-block;">デモを体験する</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2026 Communication Hub by PORTAMENT Inc. All rights reserved.</p>
+</footer>
+
+<script>
+  // ===== Demo conversation data =====
+  const demoConvs = [
+    { name: '田中 美咲', tool: 'slack', avatar: '田', time: '14:33', preview: '午前中であれば10:00-12:00...', unread: 2 },
+    { name: 'NC営業チーム', tool: 'slack', avatar: 'N', time: '13:05', preview: '@加藤 今月の進捗シートを更新し...', unread: 1 },
+    { name: 'メディカルコラボ', tool: 'chatwork', avatar: '医', time: '12:30', preview: '請求書の件、ご確認お願いいた...', unread: 2 },
+    { name: '岡本 理事長', tool: 'chatwork', avatar: '岡', time: '11:45', preview: '来月の理事会資料について...', unread: 0 },
+    { name: 'Claude Team', tool: 'gmail', avatar: 'C', time: '10:02', preview: 'New features available in...', unread: 1 },
+    { name: '佐藤 健一', tool: 'teams', avatar: '佐', time: '9:30', preview: '定例会議の議事録を共有します', unread: 0 },
+    { name: '経理チーム', tool: 'lineworks', avatar: '経', time: '3/15', preview: '稼働報告書の確認をお願い...', unread: 1 },
+    { name: '境 広輝', tool: 'gmail', avatar: '境', time: '3/15', preview: '3月分の請求書をお送りします', unread: 1 },
+    { name: '勇 周佑', tool: 'messenger', avatar: '勇', time: '3/14', preview: 'ありがとうございました！', unread: 0 },
+  ];
+
+  // Render demo conversation list
+  const convListEl = document.getElementById('demoConvs');
+  convListEl.innerHTML = demoConvs.map((c, i) => `
+    <div class="demo-conv ${i === 0 ? 'active' : ''}" onclick="void(0)">
+      <div class="demo-conv-avatar ${c.tool}">${c.avatar}<div class="demo-tool-dot ${c.tool}"></div></div>
+      <div class="demo-conv-info">
+        <div class="demo-conv-top">
+          <span class="demo-conv-name" style="${c.unread > 0 ? 'color:#fff;font-weight:700' : ''}">${c.name}</span>
+          <span class="demo-conv-time">${c.time}</span>
+        </div>
+        <div class="demo-conv-preview">${c.preview}</div>
+      </div>
+      ${c.unread > 0 ? `<div class="demo-unread">${c.unread}</div>` : ''}
+    </div>
+  `).join('');
+
+  // Demo send AI reply
+  function demoSendAI() {
+    const box = document.querySelector('.ai-reply-box');
+    const msgs = document.getElementById('demoMessages');
+    if (!box || !msgs) return;
+
+    const text = document.querySelector('.ai-reply-text').textContent;
+    const newMsg = document.createElement('div');
+    newMsg.className = 'demo-msg self';
+    newMsg.innerHTML = `
+      <div class="demo-msg-avatar">加</div>
+      <div class="demo-msg-content">
+        <div class="demo-msg-bubble">${text}</div>
+        <div class="demo-msg-time">今</div>
+      </div>
+    `;
+    msgs.appendChild(newMsg);
+    box.innerHTML = '<div style="text-align:center;padding:8px;font-size:11px;color:#22c55e;">&#10003; 送信完了（Slack: 田中 美咲）</div>';
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  // Scroll-based fade-in animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
