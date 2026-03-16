@@ -379,6 +379,237 @@
     .flow-arrow { display: none; }
     .flow-step { flex: 0 0 140px; }
   }
+
+  /* ========================================
+     Security & FAQ Sections
+     hub-sec- / hub-faq- プレフィックスで競合防止
+     白ベース × 青アクセントカラー
+     ======================================== */
+
+  :root {
+    --hub-blue-50: #eff6ff;
+    --hub-blue-100: #dbeafe;
+    --hub-blue-200: #bfdbfe;
+    --hub-blue-500: #3b82f6;
+    --hub-blue-600: #2563eb;
+    --hub-blue-700: #1d4ed8;
+    --hub-blue-800: #1e40af;
+    --hub-blue-900: #1e3a5f;
+    --hub-white: #ffffff;
+    --hub-gray-50: #f8fafc;
+    --hub-gray-100: #f1f5f9;
+    --hub-gray-200: #e2e8f0;
+    --hub-gray-400: #94a3b8;
+    --hub-gray-500: #64748b;
+    --hub-gray-600: #475569;
+    --hub-gray-700: #334155;
+    --hub-gray-800: #1e293b;
+    --hub-gray-900: #0f172a;
+    --hub-green-50: #f0fdf4;
+    --hub-green-100: #dcfce7;
+    --hub-green-500: #22c55e;
+    --hub-green-700: #15803d;
+  }
+
+  /* --- Security Section --- */
+  .hub-sec-section {
+    padding: 80px 24px;
+    background: var(--hub-white);
+  }
+  .hub-sec-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .hub-sec-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hub-blue-600);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .hub-sec-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--hub-gray-900);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .hub-sec-subtitle {
+    font-size: 16px;
+    color: var(--hub-gray-500);
+    margin: 0 0 48px;
+    line-height: 1.6;
+  }
+  .hub-sec-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 640px) {
+    .hub-sec-grid { grid-template-columns: 1fr; }
+    .hub-sec-title { font-size: 26px; }
+    .hub-sec-section { padding: 60px 20px; }
+  }
+  .hub-sec-card {
+    background: var(--hub-gray-50);
+    border: 1px solid var(--hub-gray-200);
+    border-radius: 12px;
+    padding: 28px 24px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+  }
+  .hub-sec-card:hover {
+    border-color: var(--hub-blue-200);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.08);
+  }
+  .hub-sec-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: var(--hub-blue-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+  }
+  .hub-sec-card-icon svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--hub-blue-600);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hub-sec-card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--hub-gray-800);
+    margin: 0 0 8px;
+  }
+  .hub-sec-card-text {
+    font-size: 14px;
+    color: var(--hub-gray-500);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  /* --- FAQ Section --- */
+  .hub-faq-section {
+    padding: 80px 24px;
+    background: var(--hub-gray-50);
+  }
+  .hub-faq-inner {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .hub-faq-label {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--hub-blue-600);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+  .hub-faq-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--hub-gray-900);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .hub-faq-subtitle {
+    font-size: 16px;
+    color: var(--hub-gray-500);
+    margin: 0 0 40px;
+    line-height: 1.6;
+  }
+  @media (max-width: 640px) {
+    .hub-faq-title { font-size: 26px; }
+    .hub-faq-section { padding: 60px 20px; }
+  }
+  .hub-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .hub-faq-item {
+    background: var(--hub-white);
+    border: 1px solid var(--hub-gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .hub-faq-item.open {
+    border-color: var(--hub-blue-200);
+  }
+  .hub-faq-q {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: inherit;
+    transition: background 0.15s;
+  }
+  .hub-faq-q:hover {
+    background: var(--hub-gray-50);
+  }
+  .hub-faq-q-badge {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--hub-blue-50);
+    color: var(--hub-blue-600);
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .hub-faq-q-text {
+    flex: 1;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--hub-gray-800);
+    line-height: 1.5;
+  }
+  .hub-faq-q-arrow {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    color: var(--hub-gray-400);
+  }
+  .hub-faq-item.open .hub-faq-q-arrow {
+    transform: rotate(180deg);
+    color: var(--hub-blue-500);
+  }
+  .hub-faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, padding 0.3s ease;
+  }
+  .hub-faq-item.open .hub-faq-a {
+    max-height: 300px;
+  }
+  .hub-faq-a-inner {
+    padding: 0 20px 20px 60px;
+    font-size: 14px;
+    color: var(--hub-gray-600);
+    line-height: 1.8;
+  }
+  .hub-faq-a-inner strong {
+    color: var(--hub-gray-800);
+    font-weight: 600;
+  }
 </style>
 </head>
 <body>
@@ -391,6 +622,8 @@
     <a href="#solution">機能</a>
     <a href="#demo">デモ</a>
     <a href="#architecture">仕組み</a>
+    <a href="#security">安全性</a>
+    <a href="#faq">FAQ</a>
     <a href="#compare">比較</a>
   </div>
   <img src="opsguide-logo.jpg" alt="OpsGuide" style="height:32px;object-fit:contain;" />
@@ -570,6 +803,176 @@
         <div class="arch-box tool lineworks">LINE WORKS<br><small style="font-size:9px;opacity:0.6">API/Web</small></div>
         <div class="arch-box tool messenger">Messenger<br><small style="font-size:9px;opacity:0.6">Web</small></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECURITY -->
+<section class="hub-sec-section" id="security">
+  <div class="hub-sec-inner">
+    <span class="hub-sec-label">Security</span>
+    <h2 class="hub-sec-title">安心のセキュリティ設計</h2>
+    <p class="hub-sec-subtitle">
+      お客様のデータを守るため、厳格なセキュリティ基準で設計・運用しています。
+    </p>
+
+    <div class="hub-sec-grid">
+      <!-- Card 1: OAuth -->
+      <div class="hub-sec-card">
+        <div class="hub-sec-card-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h3 class="hub-sec-card-title">OAuth認証によるAPI連携</h3>
+        <p class="hub-sec-card-text">
+          各チャットツールとはOAuth 2.0で安全に接続。パスワードをお預かりすることは一切ありません。接続権限はいつでも取り消し可能です。
+        </p>
+      </div>
+
+      <!-- Card 2: Data -->
+      <div class="hub-sec-card">
+        <div class="hub-sec-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3 class="hub-sec-card-title">データ非保持ポリシー</h3>
+        <p class="hub-sec-card-text">
+          メッセージ内容をサーバーに保存しません。表示・送信時のみ一時的に処理し、処理完了後は即時破棄。情報漏洩リスクを最小化しています。
+        </p>
+      </div>
+
+      <!-- Card 3: Encryption -->
+      <div class="hub-sec-card">
+        <div class="hub-sec-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 class="hub-sec-card-title">通信の完全暗号化</h3>
+        <p class="hub-sec-card-text">
+          すべての通信はTLS 1.3で暗号化。ツール間のデータ中継を含め、平文での通信は一切発生しません。第三者による傍受を防止します。
+        </p>
+      </div>
+
+      <!-- Card 4: Access Control -->
+      <div class="hub-sec-card">
+        <div class="hub-sec-card-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3 class="hub-sec-card-title">アクセス制御</h3>
+        <p class="hub-sec-card-text">
+          管理者による利用者の権限設定が可能。誰がどのツールに接続できるかを細かくコントロールでき、組織のセキュリティポリシーに準拠した運用を実現します。
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="hub-faq-section" id="faq">
+  <div class="hub-faq-inner">
+    <span class="hub-faq-label">FAQ</span>
+    <h2 class="hub-faq-title">よくあるご質問</h2>
+    <p class="hub-faq-subtitle">
+      導入を検討中のお客様からいただくご質問をまとめました。
+    </p>
+
+    <div class="hub-faq-list" id="hubFaqList">
+
+      <!-- Q1 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q1</span>
+          <span class="hub-faq-q-text">指定のチャットツールの全グループに一斉メッセージ送信できますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>はい、可能です。</strong>例えばChatworkの全ルームや、Slackの複数チャンネルに対して、同一メッセージを一括送信できます。送信先はリストから選択でき、送信前に必ず確認画面が表示されるため、誤送信を防止できます。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q2</span>
+          <span class="hub-faq-q-text">チャットツールを横断してメッセージを同時送信できますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>はい、対応しています。</strong>例えばSlackとChatworkに同じ内容を同時送信できます。ツールごとにフォーマットを自動調整するため、各プラットフォームに最適な形で届きます。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q3</span>
+          <span class="hub-faq-q-text">既存のチャットツールの契約や設定を変更する必要はありますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>いいえ、変更不要です。</strong>既存環境はそのままで導入できます。各ツールのAPIまたはブラウザ連携で接続するため、管理者設定の変更は必要ありません。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q4</span>
+          <span class="hub-faq-q-text">AI返信の内容は自動で送信されますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>いいえ、自動送信はしません。</strong>AIが返信案を提案し、必ず人が内容を確認・編集してから送信する仕組みです。返信文は自由に書き換え可能で、AIの提案はあくまで下書きとしてご利用いただけます。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q5</span>
+          <span class="hub-faq-q-text">導入にどのくらい時間がかかりますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>最短で即日利用開始できます。</strong>各ツールのアカウント連携（OAuth認証）を行うだけで準備完了です。専用ソフトのインストールや複雑な初期設定は必要ありません。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q6</span>
+          <span class="hub-faq-q-text">対応しているツールを追加できますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            現在はSlack・Gmail・Chatwork・Teams・LINE WORKS・Messengerの<strong>6ツールに対応</strong>しています。その他のツールについてもご要望に応じて対応を検討いたします。お気軽にご相談ください。
+          </div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="hub-faq-item">
+        <button class="hub-faq-q" onclick="hubToggleFaq(this)">
+          <span class="hub-faq-q-badge">Q7</span>
+          <span class="hub-faq-q-text">セキュリティ面は大丈夫ですか？データはどう管理されていますか？</span>
+          <svg class="hub-faq-q-arrow" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+        </button>
+        <div class="hub-faq-a">
+          <div class="hub-faq-a-inner">
+            <strong>万全の体制で運用しています。</strong>OAuth 2.0による安全な認証、TLS 1.3による通信暗号化、データ非保持ポリシーを採用。当社はISMS（ISO/IEC 27001）認証取得企業であり、国際基準に準拠した情報セキュリティ管理を徹底しています。
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -909,6 +1312,17 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ===== FAQ Toggle =====
+  window.hubToggleFaq = function(btn) {
+    var item = btn.closest('.hub-faq-item');
+    if (!item) return;
+    var allItems = document.querySelectorAll('.hub-faq-item');
+    for (var i = 0; i < allItems.length; i++) {
+      if (allItems[i] !== item) allItems[i].classList.remove('open');
+    }
+    item.classList.toggle('open');
+  };
 </script>
 </body>
 </html>
