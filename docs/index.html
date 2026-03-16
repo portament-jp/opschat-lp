@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Communication Hub - 6つのチャットツールをAIで統合管理</title>
+<meta property="og:title" content="Communication Hub - 6つのチャットを1つの画面で。">
+<meta property="og:description" content="Slack・Gmail・Chatwork・Teams・LINE WORKS・MessengerをAIで統合管理。未読確認・返信・送信をワンストップで。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tkato-oss.github.io/communication-hub/">
+<meta property="og:site_name" content="Communication Hub by PORTAMENT">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Communication Hub - 6つのチャットを1つの画面で。">
+<meta name="twitter:description" content="Slack・Gmail・Chatwork・Teams・LINE WORKS・MessengerをAIで統合管理。">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;900&display=swap');
 
@@ -378,6 +387,81 @@
   .check { color: var(--green); font-weight: 700; }
   .cross { color: #ef4444; }
 
+  /* ===== USE CASES ===== */
+  .hub-uc-section { padding: 80px 24px; background: var(--hub-gray-50, #f8fafc); }
+  .hub-uc-inner { max-width: 960px; margin: 0 auto; }
+  .hub-uc-label { display: inline-block; font-size: 13px; font-weight: 600; color: var(--hub-blue-600, #2563eb); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+  .hub-uc-title { font-size: 32px; font-weight: 700; color: var(--hub-gray-900, #0f172a); margin: 0 0 8px; line-height: 1.3; }
+  .hub-uc-subtitle { font-size: 16px; color: var(--hub-gray-500, #64748b); margin: 0 0 32px; line-height: 1.6; }
+  .hub-uc-tabs { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .hub-uc-tab { padding: 10px 20px; font-size: 14px; font-weight: 500; font-family: inherit; color: var(--hub-gray-500, #64748b); background: var(--hub-white, #ffffff); border: 1px solid var(--hub-gray-200, #e2e8f0); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+  .hub-uc-tab:hover { color: var(--hub-blue-600, #2563eb); border-color: var(--hub-blue-200, #bfdbfe); }
+  .hub-uc-tab.active { color: var(--hub-white, #ffffff); background: var(--hub-blue-600, #2563eb); border-color: var(--hub-blue-600, #2563eb); }
+  .hub-uc-content { display: none; background: var(--hub-white, #ffffff); border: 1px solid var(--hub-gray-200, #e2e8f0); border-radius: 12px; overflow: hidden; animation: hub-uc-fadeIn 0.3s ease; }
+  @keyframes hub-uc-fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  .hub-uc-content.active { display: block; }
+  .hub-uc-card { padding: 32px; }
+  .hub-uc-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+  .hub-uc-card-icon { width: 48px; height: 48px; border-radius: 10px; background: var(--hub-blue-50, #eff6ff); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .hub-uc-card-title { font-size: 20px; font-weight: 600; color: var(--hub-gray-900, #0f172a); margin: 0 0 2px; }
+  .hub-uc-card-role { font-size: 13px; color: var(--hub-gray-400, #94a3b8); }
+  .hub-uc-card-desc { font-size: 15px; color: var(--hub-gray-600, #475569); line-height: 1.8; margin-bottom: 24px; }
+  .hub-uc-ba { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .hub-uc-ba-item { border-radius: 10px; padding: 20px; }
+  .hub-uc-ba-before { background: #fef2f2; border: 1px solid #fecaca; }
+  .hub-uc-ba-after { background: #eff6ff; border: 1px solid #bfdbfe; }
+  .hub-uc-ba-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .hub-uc-ba-before .hub-uc-ba-label { color: #dc2626; }
+  .hub-uc-ba-after .hub-uc-ba-label { color: #2563eb; }
+  .hub-uc-ba-list { list-style: none; padding: 0; margin: 0; font-size: 13px; line-height: 2; color: var(--hub-gray-700, #334155); }
+  .hub-uc-ba-list li::before { margin-right: 6px; }
+  .hub-uc-ba-before .hub-uc-ba-list li::before { content: "✕ "; color: #dc2626; font-weight: 600; }
+  .hub-uc-ba-after .hub-uc-ba-list li::before { content: "✓ "; color: #2563eb; font-weight: 600; }
+  @media (max-width: 560px) {
+    .hub-uc-ba { grid-template-columns: 1fr; }
+    .hub-uc-title { font-size: 26px; }
+    .hub-uc-section { padding: 60px 20px; }
+    .hub-uc-card { padding: 24px 20px; }
+  }
+
+  /* ===== ROI SIMULATOR ===== */
+  .hub-sim-section { padding: 80px 24px; background: var(--hub-white, #ffffff); }
+  .hub-sim-inner { max-width: 700px; margin: 0 auto; }
+  .hub-sim-label { display: inline-block; font-size: 13px; font-weight: 600; color: var(--hub-blue-600, #2563eb); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; }
+  .hub-sim-title { font-size: 32px; font-weight: 700; color: var(--hub-gray-900, #0f172a); margin: 0 0 8px; line-height: 1.3; }
+  .hub-sim-subtitle { font-size: 16px; color: var(--hub-gray-500, #64748b); margin: 0 0 40px; line-height: 1.6; }
+  .hub-sim-card { background: var(--hub-gray-50, #f8fafc); border: 1px solid var(--hub-gray-200, #e2e8f0); border-radius: 12px; padding: 32px; }
+  .hub-sim-slider-group { margin-bottom: 24px; }
+  .hub-sim-slider-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .hub-sim-slider-text { font-size: 14px; color: var(--hub-gray-600, #475569); }
+  .hub-sim-slider-value { font-size: 18px; font-weight: 600; color: var(--hub-gray-900, #0f172a); min-width: 70px; text-align: right; }
+  .hub-sim-range { width: 100%; height: 6px; -webkit-appearance: none; appearance: none; background: var(--hub-gray-200, #e2e8f0); border-radius: 3px; outline: none; cursor: pointer; }
+  .hub-sim-range::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--hub-blue-600, #2563eb); cursor: pointer; border: 3px solid var(--hub-white, #ffffff); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .hub-sim-range::-moz-range-thumb { width: 22px; height: 22px; border-radius: 50%; background: var(--hub-blue-600, #2563eb); cursor: pointer; border: 3px solid var(--hub-white, #ffffff); box-shadow: 0 2px 6px rgba(0,0,0,0.15); }
+  .hub-sim-results { border-top: 1px solid var(--hub-gray-200, #e2e8f0); padding-top: 24px; margin-top: 8px; }
+  .hub-sim-results-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .hub-sim-result-box { background: var(--hub-white, #ffffff); border: 1px solid var(--hub-gray-200, #e2e8f0); border-radius: 10px; padding: 20px; text-align: center; transition: border-color 0.2s; }
+  .hub-sim-result-box:hover { border-color: var(--hub-blue-200, #bfdbfe); }
+  .hub-sim-result-label { font-size: 12px; color: var(--hub-gray-400, #94a3b8); margin-bottom: 4px; }
+  .hub-sim-result-value { font-size: 28px; font-weight: 700; line-height: 1.2; }
+  .hub-sim-result-value.blue { color: var(--hub-blue-600, #2563eb); }
+  .hub-sim-result-value.green { color: #16a34a; }
+  .hub-sim-result-sub { background: var(--hub-white, #ffffff); border: 1px solid var(--hub-gray-200, #e2e8f0); border-radius: 10px; padding: 16px; text-align: center; }
+  .hub-sim-result-sub .hub-sim-result-value { font-size: 22px; color: var(--hub-gray-800, #1e293b); }
+  .hub-sim-note { font-size: 11px; color: var(--hub-gray-400, #94a3b8); text-align: center; margin-top: 16px; line-height: 1.6; }
+  .hub-sim-cta { text-align: center; margin-top: 24px; }
+  .hub-sim-cta-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; font-size: 14px; font-weight: 600; font-family: inherit; color: var(--hub-white, #ffffff); background: var(--hub-blue-600, #2563eb); border: none; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.1s; }
+  .hub-sim-cta-btn:hover { background: var(--hub-blue-700, #1d4ed8); }
+  .hub-sim-cta-btn:active { transform: scale(0.98); }
+  @media (max-width: 560px) {
+    .hub-sim-title { font-size: 26px; }
+    .hub-sim-section { padding: 60px 20px; }
+    .hub-sim-card { padding: 24px 20px; }
+  }
+  @media (max-width: 400px) {
+    .hub-sim-results-grid { grid-template-columns: 1fr; }
+  }
+
   /* ===== CTA Banner ===== */
   .hub-cta-banner {
     padding: 60px 24px;
@@ -561,6 +645,7 @@
   <div class="nav-links">
     <a href="#problem">課題</a>
     <a href="#solution">機能</a>
+    <a href="#usecases">活用シーン</a>
     <a href="#demo">デモ</a>
     <a href="#architecture">仕組み</a>
     <a href="#security">安全性</a>
@@ -671,6 +756,124 @@
       <h3>リアルタイム監視</h3>
       <p>バックグラウンドで全ツールを常時監視。新着メッセージを即座に検知し、通知と返信案を自動提示。</p>
     </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="hub-uc-section" id="usecases">
+  <div class="hub-uc-inner">
+    <span class="hub-uc-label">Use Cases</span>
+    <h2 class="hub-uc-title">業種・職種別 活用シーン</h2>
+    <p class="hub-uc-subtitle">Communication Hub は、さまざまな業種のチーム課題を解決します。</p>
+
+    <div class="hub-uc-tabs">
+      <button class="hub-uc-tab active" onclick="hubUcSwitch(0, this)">BPO・アウトソーシング</button>
+      <button class="hub-uc-tab" onclick="hubUcSwitch(1, this)">営業チーム</button>
+      <button class="hub-uc-tab" onclick="hubUcSwitch(2, this)">カスタマーサポート</button>
+    </div>
+
+    <!-- BPO -->
+    <div class="hub-uc-content active" id="hubUc0">
+      <div class="hub-uc-card">
+        <div class="hub-uc-card-header">
+          <div class="hub-uc-card-icon">&#127970;</div>
+          <div>
+            <h3 class="hub-uc-card-title">BPO・アウトソーシング企業</h3>
+            <span class="hub-uc-card-role">オペレーションマネージャー / チームリーダー向け</span>
+          </div>
+        </div>
+        <p class="hub-uc-card-desc">
+          クライアントごとに異なるチャットツールを使い分ける必要があるBPO企業。スタッフは1日に何度もツールを切り替え、確認漏れや対応遅延のリスクを抱えています。Communication Hub で全クライアントの連絡を一元管理し、対応品質とスピードを両立します。
+        </p>
+        <div class="hub-uc-ba">
+          <div class="hub-uc-ba-item hub-uc-ba-before">
+            <div class="hub-uc-ba-label">Before</div>
+            <ul class="hub-uc-ba-list">
+              <li>クライアントA→Chatwork、B→Slack、C→Teamsと個別管理</li>
+              <li>スタッフが未読を見落とし、クレームに発展</li>
+              <li>返信文の品質がスタッフごとにバラつく</li>
+            </ul>
+          </div>
+          <div class="hub-uc-ba-item hub-uc-ba-after">
+            <div class="hub-uc-ba-label">After</div>
+            <ul class="hub-uc-ba-list">
+              <li>全クライアントの連絡を1画面で確認</li>
+              <li>VIP自動検出で重要メッセージを見落とさない</li>
+              <li>AI返信でスタッフ間の品質を統一</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 営業 -->
+    <div class="hub-uc-content" id="hubUc1">
+      <div class="hub-uc-card">
+        <div class="hub-uc-card-header">
+          <div class="hub-uc-card-icon">&#128188;</div>
+          <div>
+            <h3 class="hub-uc-card-title">営業チーム</h3>
+            <span class="hub-uc-card-role">営業マネージャー / インサイドセールス向け</span>
+          </div>
+        </div>
+        <p class="hub-uc-card-desc">
+          見込み客や既存顧客とのやり取りが複数ツールに分散し、フォローアップの抜け漏れが発生しがちな営業チーム。Communication Hub で全チャネルを統合し、商談機会を逃しません。
+        </p>
+        <div class="hub-uc-ba">
+          <div class="hub-uc-ba-item hub-uc-ba-before">
+            <div class="hub-uc-ba-label">Before</div>
+            <ul class="hub-uc-ba-list">
+              <li>顧客の返信に気づかず、商談が流れる</li>
+              <li>ツール切替のたびに集中力が途切れる</li>
+              <li>外出先で複数アプリを行き来するストレス</li>
+            </ul>
+          </div>
+          <div class="hub-uc-ba-item hub-uc-ba-after">
+            <div class="hub-uc-ba-label">After</div>
+            <ul class="hub-uc-ba-list">
+              <li>全チャネルの新着を即座に把握</li>
+              <li>AI返信で移動中でも即レスが可能</li>
+              <li>スマホ対応で外出先でも快適に操作</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CS -->
+    <div class="hub-uc-content" id="hubUc2">
+      <div class="hub-uc-card">
+        <div class="hub-uc-card-header">
+          <div class="hub-uc-card-icon">&#127897;</div>
+          <div>
+            <h3 class="hub-uc-card-title">カスタマーサポート</h3>
+            <span class="hub-uc-card-role">CS責任者 / サポートチーム向け</span>
+          </div>
+        </div>
+        <p class="hub-uc-card-desc">
+          ユーザーからの問い合わせがメール・チャット・SNSと複数経路から届くサポートチーム。対応漏れや二重対応を防ぎつつ、迅速で丁寧な対応を実現します。
+        </p>
+        <div class="hub-uc-ba">
+          <div class="hub-uc-ba-item hub-uc-ba-before">
+            <div class="hub-uc-ba-label">Before</div>
+            <ul class="hub-uc-ba-list">
+              <li>問い合わせ経路が多く、対応漏れが発生</li>
+              <li>同じ顧客に複数人が返信してしまう</li>
+              <li>定型返信のコピペに毎回時間がかかる</li>
+            </ul>
+          </div>
+          <div class="hub-uc-ba-item hub-uc-ba-after">
+            <div class="hub-uc-ba-label">After</div>
+            <ul class="hub-uc-ba-list">
+              <li>全チャネルの問い合わせを一元的に管理</li>
+              <li>リアルタイム監視で対応漏れゼロ</li>
+              <li>AIが文脈に応じた返信案を即座に生成</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -951,6 +1154,79 @@
   </div>
 </section>
 
+<!-- ROI SIMULATOR -->
+<section class="hub-sim-section" id="simulator">
+  <div class="hub-sim-inner">
+    <span class="hub-sim-label">Simulator</span>
+    <h2 class="hub-sim-title">導入効果シミュレーター</h2>
+    <p class="hub-sim-subtitle">
+      貴社の環境に合わせて、Communication Hub 導入による削減効果を試算できます。
+    </p>
+
+    <div class="hub-sim-card">
+      <div class="hub-sim-slider-group">
+        <div class="hub-sim-slider-label">
+          <span class="hub-sim-slider-text">利用中のチャットツール数</span>
+          <span class="hub-sim-slider-value" id="simToolsVal">4</span>
+        </div>
+        <input type="range" class="hub-sim-range" min="2" max="6" value="4" step="1" id="simTools">
+      </div>
+
+      <div class="hub-sim-slider-group">
+        <div class="hub-sim-slider-label">
+          <span class="hub-sim-slider-text">1日のツール切り替え回数（1人あたり）</span>
+          <span class="hub-sim-slider-value" id="simSwitchVal">12回</span>
+        </div>
+        <input type="range" class="hub-sim-range" min="5" max="30" value="12" step="1" id="simSwitch">
+      </div>
+
+      <div class="hub-sim-slider-group">
+        <div class="hub-sim-slider-label">
+          <span class="hub-sim-slider-text">チームの人数</span>
+          <span class="hub-sim-slider-value" id="simMemVal">8名</span>
+        </div>
+        <input type="range" class="hub-sim-range" min="1" max="50" value="8" step="1" id="simMem">
+      </div>
+
+      <div class="hub-sim-slider-group">
+        <div class="hub-sim-slider-label">
+          <span class="hub-sim-slider-text">平均時給（円）</span>
+          <span class="hub-sim-slider-value" id="simWageVal">2,500円</span>
+        </div>
+        <input type="range" class="hub-sim-range" min="1500" max="5000" value="2500" step="100" id="simWage">
+      </div>
+
+      <div class="hub-sim-results">
+        <div class="hub-sim-results-grid">
+          <div class="hub-sim-result-box">
+            <div class="hub-sim-result-label">年間削減時間</div>
+            <div class="hub-sim-result-value blue" id="simResHours">576時間</div>
+          </div>
+          <div class="hub-sim-result-box">
+            <div class="hub-sim-result-label">年間コスト削減</div>
+            <div class="hub-sim-result-value green" id="simResCost">144万円</div>
+          </div>
+        </div>
+        <div class="hub-sim-result-sub">
+          <div class="hub-sim-result-label">1人あたり月間削減</div>
+          <div class="hub-sim-result-value" id="simResPerson">6.0 時間/月</div>
+        </div>
+        <p class="hub-sim-note">
+          ※ 1回の切り替えに30秒、AI返信で返信作成時間を50%短縮と想定した試算です。<br>
+          実際の効果は業務内容・運用方法により異なります。
+        </p>
+      </div>
+
+      <div class="hub-sim-cta">
+        <a href="https://www.portament.jp/contact" target="_blank" rel="noopener noreferrer" class="hub-sim-cta-btn">
+          この削減効果について相談する <span style="font-size:14px;">&#8594;</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- CTA Banner -->
 <section class="hub-cta-banner">
   <h2 class="hub-cta-banner-title">コミュニケーションを、<br>もっとスマートに。</h2>
@@ -971,6 +1247,50 @@
 </footer>
 
 <script>
+  // ===== Use Case Tab Switch =====
+  window.hubUcSwitch = function(idx, btn) {
+    var tabs = document.querySelectorAll('.hub-uc-tab');
+    for (var i = 0; i < tabs.length; i++) tabs[i].classList.remove('active');
+    btn.classList.add('active');
+    var contents = document.querySelectorAll('.hub-uc-content');
+    for (var i = 0; i < contents.length; i++) contents[i].classList.remove('active');
+    var target = document.getElementById('hubUc' + idx);
+    if (target) target.classList.add('active');
+  };
+
+  // ===== ROI Simulator =====
+  (function() {
+    function simCalc() {
+      var tools = +document.getElementById('simTools').value;
+      var switches = +document.getElementById('simSwitch').value;
+      var members = +document.getElementById('simMem').value;
+      var wage = +document.getElementById('simWage').value;
+      document.getElementById('simToolsVal').textContent = tools;
+      document.getElementById('simSwitchVal').textContent = switches + '回';
+      document.getElementById('simMemVal').textContent = members + '名';
+      document.getElementById('simWageVal').textContent = wage.toLocaleString() + '円';
+      var switchMinPerDay = switches * 0.5;
+      var replyMinPerDay = switches * 1.5 * 0.5;
+      var totalMinPerDayPerPerson = switchMinPerDay + replyMinPerDay;
+      var workDays = 245;
+      var hoursPerYear = Math.round(totalMinPerDayPerPerson * members * workDays / 60);
+      var costPerYear = Math.round(hoursPerYear * wage);
+      var perPersonPerMonth = (totalMinPerDayPerPerson * workDays / 60 / 12).toFixed(1);
+      document.getElementById('simResHours').textContent = hoursPerYear.toLocaleString() + '時間';
+      if (costPerYear >= 10000) {
+        document.getElementById('simResCost').textContent = Math.round(costPerYear / 10000).toLocaleString() + '万円';
+      } else {
+        document.getElementById('simResCost').textContent = costPerYear.toLocaleString() + '円';
+      }
+      document.getElementById('simResPerson').textContent = perPersonPerMonth + ' 時間/月';
+    }
+    document.getElementById('simTools').addEventListener('input', simCalc);
+    document.getElementById('simSwitch').addEventListener('input', simCalc);
+    document.getElementById('simMem').addEventListener('input', simCalc);
+    document.getElementById('simWage').addEventListener('input', simCalc);
+    simCalc();
+  })();
+
   // ===== Interactive Demo v5 =====
   (function() {
     'use strict';
